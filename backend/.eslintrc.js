@@ -19,7 +19,8 @@ module.exports = {
     tsconfigRootDir: __dirname
   },
   rules: {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
   globals: { process: true, __dirname: true }
 };
