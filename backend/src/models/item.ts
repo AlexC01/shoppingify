@@ -4,6 +4,7 @@ const itemSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     note: { type: String, required: true, trim: true },
+    image: { type: Buffer, required: false },
     category: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Category" }
   },
   { timestamps: true }
