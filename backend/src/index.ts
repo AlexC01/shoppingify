@@ -2,14 +2,15 @@ import express from "express";
 import cors from "cors";
 import connectMongo from "./db/mongoose";
 import categoryRouter from "./routers/category";
+import itemRouter from "./routers/item";
 
 void connectMongo();
 
 const app = express();
-const PORT = process.env.PORT ?? 3000;
+const PORT = process.env.PORT ?? 3030;
 
 app.use(express.json());
 app.use(cors());
-app.use(categoryRouter);
+app.use([categoryRouter, itemRouter]);
 
 app.listen(PORT, () => console.log(`App Running on port ${PORT}`));
