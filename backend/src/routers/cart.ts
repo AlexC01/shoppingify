@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import express, { RequestHandler } from "express";
 import Cart from "../models/cart";
 import CartItems from "../models/cartItems";
@@ -32,6 +33,24 @@ router.post("/cart", (async (req, res) => {
     res.status(201).send(cart);
   } catch (err) {
     res.status(400).send(err);
+  }
+}) as RequestHandler);
+
+router.patch("/cart/:id", (async (req, res) => {
+  try {
+    const cartObj = await Cart.findById(req.params.id).populate({
+      path: "cart_items",
+      populate: { path: "item", populate: { path: "category" } }
+    });
+    if (cartObj == null) return res.status(404).send();
+
+    if (req.body.name) cartObj.name = req.body.name;
+    if (req.body.status) cartObj.status = req.body.status;
+
+    await cartObj.save();
+    return res.status(202).send(cartObj);
+  } catch (err) {
+    return res.status(404).send();
   }
 }) as RequestHandler);
 
