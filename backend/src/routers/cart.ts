@@ -15,8 +15,12 @@ router.get("/cart", (async (_req, res) => {
 }) as RequestHandler);
 
 router.get("/cart/:token", (async (req, res) => {
+  const findQuery: { token: string; status?: any } = { token: req.params.token };
   try {
-    const cart = await Cart.find({ token: req.params.token }).populate({
+    if (req.query.status) {
+      findQuery.status = req.query.status;
+    }
+    const cart = await Cart.find(findQuery).populate({
       path: "cart_items",
       populate: { path: "item", populate: { path: "category" } }
     });
