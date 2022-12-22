@@ -45,4 +45,14 @@ router.post("/item", upload.single("image"), (async (req, res) => {
   }
 }) as RequestHandler);
 
+router.delete("/item/:id", (async (req, res) => {
+  try {
+    const item = await Items.findOneAndDelete({ _id: req.params.id });
+    if (item == null) return res.status(404).send();
+    return res.send(item);
+  } catch (err) {
+    return res.status(500).send();
+  }
+}) as RequestHandler);
+
 export default router;
