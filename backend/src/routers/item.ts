@@ -12,12 +12,16 @@ const upload = multer({
   storage
 });
 
-router.get("/item", (async (_req, res) => {
+router.get("/item", (async (req, res) => {
   try {
+    if (req.query.search) {
+      const items = await Items.find({ name: { $regex: req.query.search, $options: "i" } }).populate("category");
+      return res.send(items);
+    }
     const items = await Items.find().populate("category");
-    res.send(items);
+    return res.send(items);
   } catch (err) {
-    res.status(500).send();
+    return res.status(500).send();
   }
 }) as RequestHandler);
 
