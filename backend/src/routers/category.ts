@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/category", (async (_req, res) => {
   try {
-    const cat = await Categories.find();
+    const cat = await Categories.find().populate("items");
     res.send(cat);
   } catch (err) {
     res.status(500).send();
