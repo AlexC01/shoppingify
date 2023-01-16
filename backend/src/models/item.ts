@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import CartItems from "./cartItems";
 
 const itemSchema = new mongoose.Schema(
   {
@@ -24,6 +25,13 @@ itemSchema.methods.toJSON = function () {
 
   return itemObject;
 };
+
+itemSchema.pre("remove", async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const item = this;
+  await CartItems.deleteMany({ item: { _id: item._id } });
+  next();
+});
 
 const Items = mongoose.model("Item", itemSchema);
 
