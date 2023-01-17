@@ -1,11 +1,10 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <p className="text-teal-400">Edit and save to reload.</p>
-      </header>
+      <Outlet />
     </div>
   );
 };
