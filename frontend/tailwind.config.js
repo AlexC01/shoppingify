@@ -11,6 +11,8 @@ module.exports = {
         cartbg: "#F9A109",
         redbox: "#EB5757",
         greybg: "#454545",
+        redwine: "#80485B",
+        creambg: "#FFF0DE",
       },
     },
   },
