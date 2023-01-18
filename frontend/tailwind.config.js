@@ -2,7 +2,13 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {},
+      colors: {
+        bgmain: "#FAFAFE",
+        cartbg: "#F9A109",
+      },
+    },
   },
   plugins: [],
 };
