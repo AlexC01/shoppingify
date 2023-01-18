@@ -1,17 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.svg";
+import routesNames from "../../customRoutes";
 import Tooltip from "../Tooltip/Tooltip";
 
 const Sidebar = () => {
+  const location = useLocation();
+
   return (
     <aside className="fixed inset-y-0 z-10 flex flex-shrink-0 bg-white w-24 md:static focus:outline-none">
       <nav className="flex flex-col flex-shrink-0 h-full py-10 w-full">
         <div className="flex-shrink-0 mx-auto">
           <img src={logo} alt="Logo" className="icon-hover" />
         </div>
-        <div className="flex flex-col items-center justify-center flex-1 space-y-16">
-          <div className="">
+        <div className="flex flex-col items-center justify-center flex-1 space-y-14">
+          <div className="relative w-full flex justify-center items-center py-2">
             <Tooltip text="Items">
               <Link to="/">
                 <svg
@@ -20,7 +23,7 @@ const Sidebar = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={1.2}
                   stroke="currentColor"
-                  className="w-7 h-7 icon-hover"
+                  className="w-8 h-8 icon-hover text-greybg"
                 >
                   <path
                     strokeLinecap="round"
@@ -30,8 +33,11 @@ const Sidebar = () => {
                 </svg>
               </Link>
             </Tooltip>
+            {location.pathname === routesNames.home && (
+              <div className="bg-cartbg absolute left-0 w-2 h-full rounded-tr-md rounded-br-md" />
+            )}
           </div>
-          <div>
+          <div className="relative w-full flex justify-center items-center py-2">
             <Tooltip text="history">
               <Link to="/">
                 <svg
@@ -40,7 +46,7 @@ const Sidebar = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={1.2}
                   stroke="currentColor"
-                  className="w-7 h-7 icon-hover"
+                  className="w-8 h-8 icon-hover text-greybg"
                 >
                   <path
                     strokeLinecap="round"
@@ -50,18 +56,21 @@ const Sidebar = () => {
                 </svg>
               </Link>
             </Tooltip>
+            {location.pathname === routesNames.history && (
+              <div className="bg-cartbg absolute left-0 w-2 h-full rounded-tr-md rounded-br-md" />
+            )}
           </div>
-          <div>
+          <div className="relative w-full flex justify-center items-center py-2">
             <Tooltip text="Statistics">
               <Link to="/">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokeWidth={1}
+                  strokeWidth={1.2}
                   stroke="currentColor"
                   data-tooltip-target="tooltip-default"
-                  className="w-7 h-7 icon-hover"
+                  className="w-8 h-8 icon-hover text-greybg"
                 >
                   <path
                     strokeLinecap="round"
@@ -71,6 +80,9 @@ const Sidebar = () => {
                 </svg>
               </Link>
             </Tooltip>
+            {location.pathname === routesNames.statistics && (
+              <div className="bg-cartbg absolute left-0 w-2 h-full rounded-tr-md rounded-br-md" />
+            )}
           </div>
         </div>
         <div className="flex items-center justify-center relative">
