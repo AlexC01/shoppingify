@@ -1,5 +1,10 @@
 export interface GlobalContextInterface {
   token: string;
+  items: number;
+}
+
+export interface FunctionsContextInterface {
+  updateCartItems: () => Promise<void>;
 }
 
 export type GlobalContextType = {
@@ -7,4 +12,16 @@ export type GlobalContextType = {
   setGlobalContext: (value: GlobalContextInterface) => void;
 };
 
-export const GlobalContextObj = { token: "" };
+export type FunctionsContextType = {
+  HelpersContext: FunctionsContextInterface;
+  setHelpersContext: (value: FunctionsContextInterface) => void;
+};
+
+export const GlobalContextObj: GlobalContextInterface = {
+  token: "",
+  items: 0,
+};
+
+export const HelpersContextObj: FunctionsContextInterface = {
+  updateCartItems: async () => {},
+};
