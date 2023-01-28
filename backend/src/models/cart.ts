@@ -54,8 +54,7 @@ cartSchema.methods.toJSON = function () {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const cart = this;
   const cartObject = cart.toObject();
-
-  if (cartObject.cart_items.length > 0) {
+  if (cartObject.cart_items !== undefined && cartObject.cart_items.length > 0) {
     const newItemsArr = cartObject.cart_items.reduce((acc: CatNewInt[], el: ItemBaseInt) => {
       const idCat = acc.map(e => e._id).indexOf(el.item.category._id);
       if (idCat !== -1) {
