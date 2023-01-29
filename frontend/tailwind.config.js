@@ -13,6 +13,7 @@ module.exports = {
         greybg: "#454545",
         redwine: "#80485B",
         creambg: "#FFF0DE",
+        textbrown: "#34333A",
       },
     },
   },

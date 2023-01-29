@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.svg";
+import GeneralContext from "../../context/GeneralContext";
 import routesNames from "../../customRoutes";
+import { GlobalContextType } from "../../models/Context";
 import Tooltip from "../Tooltip/Tooltip";
 
 const Sidebar = () => {
+  const { GlobalContext } = useContext(GeneralContext) as GlobalContextType;
   const location = useLocation();
 
   return (
@@ -103,7 +106,11 @@ const Sidebar = () => {
             </svg>
           </div>
           <div className="absolute bottom-9 right-5 bg-redbox px-2 rounded-md">
-            <span className="text-sm font-semibold text-white">3</span>
+            {GlobalContext.items > 0 && (
+              <span className="text-sm font-semibold text-white">
+                {GlobalContext.items}
+              </span>
+            )}
           </div>
         </div>
       </nav>
