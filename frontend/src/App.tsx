@@ -13,6 +13,7 @@ import {
 } from "./models/Context";
 
 const App = () => {
+  const [tokenUser, setTokenUser] = useState("");
   const [GlobalContext, setGlobalContext] =
     useState<GlobalContextInterface>(GlobalContextObj);
 
@@ -33,8 +34,10 @@ const App = () => {
     const token = localStorage.getItem("user.token");
     if (token) {
       setGlobalContext({ ...GlobalContext, token: JSON.parse(token) });
+      setTokenUser(JSON.parse(token));
     } else {
       const generateToken = getToken();
+      setTokenUser(generateToken);
       localStorage.setItem("user.token", JSON.stringify(generateToken));
       setGlobalContext({ ...GlobalContext, token: generateToken });
     }
@@ -49,7 +52,7 @@ const App = () => {
             <div className="flex-1">
               <Outlet />
             </div>
-            <RightPanel />
+            <RightPanel token={tokenUser} />
           </div>
         </div>
       </FunctionsContext.Provider>
