@@ -1,11 +1,64 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import bottle from "../../assets/source.svg";
+import GeneralContext from "../../context/GeneralContext";
+import { createCart, getCart } from "../../helpers/Cart";
+import { CartItemsArr, CartResponse, CreateCartObj } from "../../models/Cart";
+import { GlobalContextType } from "../../models/Context";
+import Spinner from "../Spinner/Spinner";
 
-const RightPanel = () => {
+interface Props {
+  token: string;
+}
+
+const RightPanel = ({ token }: Props) => {
+  const { GlobalContext } = useContext(GeneralContext) as GlobalContextType;
+  const [loading, setLoading] = useState(false);
+  const [currentCartId, setCurrentCartId] = useState("");
+  const [cart, setCart] = useState<CartResponse>();
+  const [cartItems, setCartItems] = useState<CartItemsArr[]>([]);
+
+  const postCart = async () => {
+    const obj: CreateCartObj = {
+      status: "active",
+      token,
+      name: "Shopping List",
+    };
+    try {
+      const resp = await createCart(token, obj);
+      setCurrentCartId(resp.id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCartForUser = async () => {
+    if (cartItems.length === 0) setLoading(true);
+    try {
+      const resp = await getCart(token, "active");
+      if (resp.length === 0) {
+        postCart();
+        return;
+      }
+      setCart(resp[0]);
+      setCartItems(resp[0].cart_items);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (currentCartId !== "") getCartForUser();
+  }, [currentCartId]);
+
+  useEffect(() => {
+    if (token !== "") getCartForUser();
+  }, [token]);
+
   return (
     <section className="fixed inset-y-0  right-0 z-10 flex-shrink-0 w-96">
       <div className="bg-creambg h-full w-full pt-10">
-        <div className="px-10">
+        <div className="px-10 flex flex-col h-full">
           <div className="bg-redwine mx-auto h-32 gap-10 rounded-2xl px-5 relative grid grid-cols-3">
             <div className="-mt-5 w-20">
               <img src={bottle} alt="Botella" />
@@ -22,6 +75,11 @@ const RightPanel = () => {
               </button>
             </div>
           </div>
+          {loading && (
+            <div className="flex items-center justify-center flex-1">
+              <Spinner />
+            </div>
+          )}
         </div>
       </div>
     </section>
