@@ -60,10 +60,10 @@ const RightPanel = ({ token }: Props) => {
   }, [token]);
 
   return (
-    <section className="fixed inset-y-0  right-0 z-10 flex-shrink-0 w-96">
+    <section className=" inset-y-0  right-0 z-10 flex-shrink-0 w-96">
       <div className="bg-creambg h-full w-full pt-10">
         <div className="px-10 flex flex-col h-full">
-          <div className="flex-1">
+          <div className={loading ? "flex-2" : "flex-1"}>
             <div className="bg-redwine mx-auto h-32 gap-10 rounded-2xl px-5 relative grid grid-cols-3">
               <div className="-mt-5 w-20">
                 <img src={bottle} alt="Botella" />

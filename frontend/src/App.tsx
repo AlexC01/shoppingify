@@ -48,8 +48,8 @@ const App = () => {
       <FunctionsContext.Provider value={HelpersContextMemo}>
         <div className="flex h-screen antialiased bg-bgmain font-quicksand">
           <Sidebar />
-          <div className="flex flex-1 h-screen overflow-y-scroll">
-            <div className="flex-1">
+          <div className="flex flex-1 h-screen">
+            <div className="flex-1 px-14 pt-16 overflow-y-auto">
               <Outlet />
             </div>
             <RightPanel token={tokenUser} />
