@@ -19,7 +19,7 @@ export interface CategoriesResponse {
 }
 
 interface ItemCat {
-  _id: string;
+  id: string;
   name: string;
   note: string;
   category: string;

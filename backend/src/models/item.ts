@@ -15,6 +15,7 @@ itemSchema.methods.toJSON = function () {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const item = this;
   const itemObject = item.toObject();
+  itemObject.id = this.id;
 
   delete itemObject.__v;
   delete itemObject.updatedAt;
