@@ -27,6 +27,7 @@ interface ItemIntTest {
 
 interface CatNewInt {
   _id: string;
+  id: string;
   category_name: string;
   items: ItemIntTest[];
 }
@@ -71,6 +72,7 @@ cartSchema.methods.toJSON = function () {
       } else {
         const newObj: CatNewInt = {
           _id: el.item.category._id,
+          id: el.item.category._id,
           category_name: el.item.category.name,
           items: [
             {
