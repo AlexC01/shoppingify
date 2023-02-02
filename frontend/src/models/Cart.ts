@@ -18,6 +18,7 @@ export interface CreateCartObj {
 export interface CartItemsArr {
   _id: string;
   category_name: string;
+  id: string;
   items: SingleCartItem[];
 }
 
@@ -36,4 +37,10 @@ export interface CreateCartResponse {
   id: string;
   createdAt: Date;
   updateAt: Date;
+}
+
+export interface AddCartItem {
+  cart: string;
+  item: string;
+  quant: number;
 }

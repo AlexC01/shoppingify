@@ -1,4 +1,5 @@
 import {
+  AddCartItem,
   CartResponse,
   CreateCartObj,
   CreateCartResponse,
@@ -21,4 +22,9 @@ export const createCart = async (token: string, obj: CreateCartObj) => {
     obj,
   );
   return cartResponse.data;
+};
+
+export const addItemCart = async (obj: AddCartItem) => {
+  const cartItemResponse = await clientAPI.client.post("/cart-item/", obj);
+  return cartItemResponse.data;
 };

@@ -1,6 +1,7 @@
 export interface GlobalContextInterface {
   token: string;
   items: number;
+  cartId: string;
 }
 
 export interface FunctionsContextInterface {
@@ -20,6 +21,7 @@ export type FunctionsContextType = {
 export const GlobalContextObj: GlobalContextInterface = {
   token: "",
   items: 0,
+  cartId: "",
 };
 
 export const HelpersContextObj: FunctionsContextInterface = {
