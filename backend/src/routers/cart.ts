@@ -7,7 +7,10 @@ const router = express.Router();
 
 router.get("/cart", (async (_req, res) => {
   try {
-    const cart = await Cart.find().populate({ path: "cart_items", populate: { path: "item" } });
+    const cart = await Cart.find().populate({
+      path: "cart_items",
+      populate: { path: "item", populate: { path: "category" } }
+    });
     res.send(cart);
   } catch (err) {
     res.status(500).send();
@@ -60,7 +63,7 @@ router.patch("/cart/:id", (async (req, res) => {
 
 router.get("/cart-item", (async (_req, res) => {
   try {
-    const cartItem = await CartItems.find().populate("item");
+    const cartItem = await CartItems.find().populate({ path: "item", populate: { path: "category" } });
     res.send(cartItem);
   } catch (err) {
     res.status(500).send(err);
