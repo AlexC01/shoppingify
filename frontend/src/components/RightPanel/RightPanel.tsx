@@ -5,8 +5,9 @@ import shop from "../../assets/shop.svg";
 import GeneralContext from "../../context/GeneralContext";
 import { createCart, getCart } from "../../helpers/Cart";
 import { CartItemsArr, CartResponse, CreateCartObj } from "../../models/Cart";
-import { GlobalContextType } from "../../models/Context";
+import { FunctionsContextType, GlobalContextType } from "../../models/Context";
 import Spinner from "../Spinner/Spinner";
+import FunctionsContext from "../../context/FunctionsContext";
 
 interface Props {
   token: string;
@@ -16,6 +17,9 @@ const RightPanel = ({ token }: Props) => {
   const { GlobalContext, setGlobalContext } = useContext(
     GeneralContext,
   ) as GlobalContextType;
+  const { HelpersContext, setHelpersContext } = useContext(
+    FunctionsContext,
+  ) as FunctionsContextType;
   const [loading, setLoading] = useState(false);
   const [currentCartId, setCurrentCartId] = useState("");
   const [cart, setCart] = useState<CartResponse>();
@@ -36,7 +40,6 @@ const RightPanel = ({ token }: Props) => {
   };
 
   const getCartForUser = async () => {
-    if (cartItems.length === 0) setLoading(true);
     try {
       const resp = await getCart(token, "active");
       if (resp.length === 0) {
@@ -63,6 +66,11 @@ const RightPanel = ({ token }: Props) => {
   useEffect(() => {
     if (token !== "") getCartForUser();
   }, [token]);
+
+  useEffect(() => {
+    setLoading(true);
+    setHelpersContext({ ...HelpersContext, updateCartItems: getCartForUser });
+  }, []);
 
   return (
     <section className=" inset-y-0  right-0 z-10 flex-shrink-0 w-96">

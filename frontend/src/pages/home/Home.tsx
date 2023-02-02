@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Spinner from "../../components/Spinner/Spinner";
+import FunctionsContext from "../../context/FunctionsContext";
+import GeneralContext from "../../context/GeneralContext";
+import { addItemCart } from "../../helpers/Cart";
 import getAllItems from "../../helpers/Items";
+import { AddCartItem } from "../../models/Cart";
+import { FunctionsContextType, GlobalContextType } from "../../models/Context";
 import { CategoriesResponse } from "../../models/Item";
 
 const Home = () => {
+  const { GlobalContext } = useContext(GeneralContext) as GlobalContextType;
+  const { HelpersContext } = useContext(
+    FunctionsContext,
+  ) as FunctionsContextType;
   const [allItems, setAllItems] = useState<CategoriesResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -15,6 +24,20 @@ const Home = () => {
       setLoading(false);
     } catch (err) {
       setError(true);
+    }
+  };
+
+  const addItem = async (itemId: string) => {
+    const obj: AddCartItem = {
+      cart: GlobalContext.cartId,
+      item: itemId,
+      quant: 1,
+    };
+    try {
+      const resp = await addItemCart(obj);
+      if (resp) HelpersContext.updateCartItems();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -68,32 +91,37 @@ const Home = () => {
             {allItems.map(category => (
               <div className="mt-10" key={category.id}>
                 <h4 className="font-bold text-lg">{category.name}</h4>
-                {category.items.map(item => (
-                  <div
-                    className="mt-4 grid grid-cols-3 2xl:grid-cols-6 w-full gap-6"
-                    key={item.id}
-                  >
-                    <div className="bg-white rounded-xl shadow-sm hover:shadow-md cursor-pointer transition-shadow w-52 space-x-5 py-3 px-4 text-left flex justify-between">
-                      <p className="font-semibold text-clip overflow-hidden w-3/4">
+                <div
+                  className="mt-4 grid grid-cols-3 2xl:grid-cols-6 w-full gap-6"
+                  key={category.id}
+                >
+                  {category.items.map(item => (
+                    <div
+                      key={item.id}
+                      className="bg-white rounded-xl shadow-sm hover:shadow-md cursor-pointer transition-shadow py-3 px-4 w-full text-left flex space-x-5 items-start justify-between"
+                    >
+                      <p className="font-semibold text-ellipsis overflow-hidden w-3/4">
                         {item.name}
                       </p>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.4}
-                        stroke="currentColor"
-                        className="w-5 h-5 text-gray-500 hover:text-black cursor-pointer"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 4.5v15m7.5-7.5h-15"
-                        />
-                      </svg>
+                      <button type="button" onClick={() => addItem(item.id)}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.4}
+                          stroke="currentColor"
+                          className="w-5 h-5 text-gray-500 hover:text-black cursor-pointer"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 4.5v15m7.5-7.5h-15"
+                          />
+                        </svg>
+                      </button>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             ))}
           </div>
