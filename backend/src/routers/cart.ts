@@ -69,11 +69,18 @@ router.get("/cart-item", (async (_req, res) => {
 
 router.post("/cart-item", (async (req, res) => {
   try {
+    const check = await CartItems.findOne({ item: req.body.item, cart: req.body.cart });
+    if (check) {
+      const cant = check.quant as number;
+      check.quant = cant + 1;
+      await check.save();
+      return res.send(check);
+    }
     const cartItem = new CartItems({ ...req.body });
     await cartItem.save();
-    res.status(201).send(cartItem);
+    return res.status(201).send(cartItem);
   } catch (err) {
-    res.status(400).send(err);
+    return res.status(400).send(err);
   }
 }) as RequestHandler);
 
@@ -94,6 +101,16 @@ router.delete("/cart-item/:id", (async (req, res) => {
     const cartItem = await CartItems.findOneAndDelete({ _id: req.params.id });
     if (cartItem == null) return res.status(404).send();
     return res.send(cartItem);
+  } catch (err) {
+    return res.status(500).send();
+  }
+}) as RequestHandler);
+
+router.delete("/cart", (async (_req, res) => {
+  try {
+    await CartItems.deleteMany();
+    await Cart.deleteMany();
+    return res.send({});
   } catch (err) {
     return res.status(500).send();
   }
