@@ -98,7 +98,7 @@ const Home = () => {
                   {category.items.map(item => (
                     <div
                       key={item.id}
-                      className="bg-white rounded-xl shadow-sm hover:shadow-md cursor-pointer transition-shadow py-3 px-4 w-full text-left flex space-x-5 items-start justify-between"
+                      className="bg-white rounded-xl shadow-sm hover:shadow-md cursor-pointer transition-shadow py-3 px-4 w-full text-left flex space-x-5 justify-between"
                     >
                       <p className="font-semibold text-ellipsis overflow-hidden w-3/4">
                         {item.name}

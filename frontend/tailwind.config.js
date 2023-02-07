@@ -14,6 +14,7 @@ module.exports = {
         redwine: "#80485B",
         creambg: "#FFF0DE",
         textbrown: "#34333A",
+        greycolor: "#828282",
       },
     },
   },
