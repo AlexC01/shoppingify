@@ -37,3 +37,8 @@ export const updateQuantItemCart = async (obj: UpdateCartItem, id: string) => {
   );
   return cartItemResponse.data;
 };
+
+export const deleteItemCart = async (id: string) => {
+  const cartItemResponse = await clientAPI.client.delete(`/cart-item/${id}/`);
+  return cartItemResponse.data;
+};

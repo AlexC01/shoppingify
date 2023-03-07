@@ -1,9 +1,16 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from "react";
 import bottle from "../../assets/source.svg";
 import shop from "../../assets/shop.svg";
 import GeneralContext from "../../context/GeneralContext";
-import { createCart, getCart, updateQuantItemCart } from "../../helpers/Cart";
+import {
+  createCart,
+  deleteItemCart,
+  getCart,
+  updateQuantItemCart,
+} from "../../helpers/Cart";
 import { CartItemsArr, CartResponse, CreateCartObj } from "../../models/Cart";
 import { FunctionsContextType, GlobalContextType } from "../../models/Context";
 import Spinner from "../Spinner/Spinner";
@@ -66,10 +73,17 @@ const RightPanel = ({ token }: Props) => {
     }
   };
 
-  const updateCartItem = async (id: string, quant: number) => {
-    if (quant === 0) {
-      return;
+  const deleteCartItem = async (id: string) => {
+    try {
+      await deleteItemCart(id);
+      getCartForUser();
+    } catch (err) {
+      console.log(err);
     }
+  };
+
+  const updateCartItem = async (id: string, quant: number) => {
+    if (quant === 0) deleteCartItem(id);
     try {
       await updateQuantItemCart({ quant }, id);
       getCartForUser();
@@ -161,14 +175,17 @@ const RightPanel = ({ token }: Props) => {
                         </div>
                         <div className="text-center flex-2">
                           <div className="bg-white w-full pr-2 rounded-xl flex justify-between items-center">
-                            <div className="bg-cartbg p-2 mr-2 rounded-xl">
+                            <div
+                              className="bg-cartbg p-2 mr-2 rounded-xl cursor-pointer"
+                              onClick={() => deleteCartItem(item.cart_item_id)}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 strokeWidth={1.4}
                                 stroke="currentColor"
-                                className="w-5 h-5 text-white "
+                                className="w-5 h-5 text-white icon-hover"
                               >
                                 <path
                                   strokeLinecap="round"
