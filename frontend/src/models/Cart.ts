@@ -44,3 +44,7 @@ export interface AddCartItem {
   item: string;
   quant: number;
 }
+
+export interface UpdateCartItem {
+  quant: number;
+}

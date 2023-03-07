@@ -3,6 +3,7 @@ import {
   CartResponse,
   CreateCartObj,
   CreateCartResponse,
+  UpdateCartItem,
 } from "../models/Cart";
 import clientAPI from "../services/APIClient";
 
@@ -26,5 +27,13 @@ export const createCart = async (token: string, obj: CreateCartObj) => {
 
 export const addItemCart = async (obj: AddCartItem) => {
   const cartItemResponse = await clientAPI.client.post("/cart-item/", obj);
+  return cartItemResponse.data;
+};
+
+export const updateQuantItemCart = async (obj: UpdateCartItem, id: string) => {
+  const cartItemResponse = await clientAPI.client.patch(
+    `/cart-item/${id}/`,
+    obj,
+  );
   return cartItemResponse.data;
 };

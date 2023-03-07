@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import bottle from "../../assets/source.svg";
 import shop from "../../assets/shop.svg";
 import GeneralContext from "../../context/GeneralContext";
-import { createCart, getCart } from "../../helpers/Cart";
+import { createCart, getCart, updateQuantItemCart } from "../../helpers/Cart";
 import { CartItemsArr, CartResponse, CreateCartObj } from "../../models/Cart";
 import { FunctionsContextType, GlobalContextType } from "../../models/Context";
 import Spinner from "../Spinner/Spinner";
@@ -14,6 +14,7 @@ interface Props {
 }
 
 const RightPanel = ({ token }: Props) => {
+  const [optionDrawer, setOptionDrawer] = useState(0);
   const { GlobalContext, setGlobalContext } = useContext(
     GeneralContext,
   ) as GlobalContextType;
@@ -65,6 +66,18 @@ const RightPanel = ({ token }: Props) => {
     }
   };
 
+  const updateCartItem = async (id: string, quant: number) => {
+    if (quant === 0) {
+      return;
+    }
+    try {
+      await updateQuantItemCart({ quant }, id);
+      getCartForUser();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (currentCartId !== "") getCartForUser();
   }, [currentCartId]);
@@ -79,7 +92,7 @@ const RightPanel = ({ token }: Props) => {
   }, []);
 
   return (
-    <section className=" inset-y-0  right-0 z-10 flex-shrink-0 w-96">
+    <section className=" inset-y-0  right-0 z-10 flex-shrink-0 w-96 relative">
       <div className="bg-creambg h-full w-full pt-10">
         <div className="px-10 flex flex-col h-full">
           <div
@@ -172,6 +185,12 @@ const RightPanel = ({ token }: Props) => {
                                   viewBox="0 0 24 24"
                                   strokeWidth={1.5}
                                   stroke="currentColor"
+                                  onClick={() =>
+                                    updateCartItem(
+                                      item.cart_item_id,
+                                      item.quant - 1,
+                                    )
+                                  }
                                   className="w-5 h-5 text-cartbg cursor-pointer icon-hover"
                                 >
                                   <path
@@ -190,6 +209,12 @@ const RightPanel = ({ token }: Props) => {
                                   fill="none"
                                   viewBox="0 0 24 24"
                                   strokeWidth={1.5}
+                                  onClick={() =>
+                                    updateCartItem(
+                                      item.cart_item_id,
+                                      item.quant + 1,
+                                    )
+                                  }
                                   stroke="currentColor"
                                   className="w-5 h-5 text-cartbg cursor-pointer icon-hover"
                                 >
